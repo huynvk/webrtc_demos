@@ -42,7 +42,6 @@ const Video = styled.video`
 `;
 
 const App = () => {
-  const [started, setStarted] = useState(false);
   const [recorded, setRecorded] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [data, setData] = useState([]);
@@ -70,14 +69,9 @@ const App = () => {
             try {
               if (!recorder) {
                 const mediaRecorder = await beginRecord(
-                  (stream) => {
-                    console.log('play stream', stream);
-                    playStream(recordingVideoEl.current, stream);
-                  },
-                  (recordedBlobs) => {
-                    setData(recordedBlobs);
-                    console.log('Finished records', recordedBlobs);
-                  },
+                  (stream) =>
+                    playStream(recordingVideoEl.current, stream),
+                  (recordedBlobs) => setData(recordedBlobs),
                 );
                 setRecorder(mediaRecorder);
               } else {
